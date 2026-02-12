@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Portfolio | Tanisha Kumari</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* मैथ्स के लिए ब्लू/टील थीम */
+            --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --primary-color: #2c3e50;
+            --accent-color: #00838f; /* टील ब्लू */
+            --shadow: 0 8px 32px 0 rgba(0, 131, 143, 0.1);
+            --border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--primary-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* प्रोफाइल हेडर */
+        .profile-header {
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #4dd0e1 0%, #00acc1 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.4);
+            border: 4px solid white;
+        }
+
+        h1 { font-size: 1.6rem; margin-bottom: 5px; color: #2c3e50; font-weight: 700; }
+        .tagline { font-size: 0.85rem; color: #555; background: #fff; padding: 5px 15px; border-radius: 20px; border: 1px solid #dceeff; display: inline-block; font-weight: 500; }
+
+        /* ग्लास कार्ड */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: var(--border);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* स्टूडेंट डिटेल्स */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: left;
+        }
+        .info-item label { display: block; font-size: 0.7rem; color: #7f8c8d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-item span { font-size: 1rem; font-weight: 600; color: #2c3e50; }
+
+        /* चैप्टर सेक्शन */
+        .chapter-section {
+            width: 100%;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .chapter-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-align: left;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chapter-count {
+            font-size: 0.7rem;
+            background: #e0f7fa;
+            color: #006064;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* इमेजेज ग्रिड (गैलरी) */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* एक लाइन में 2 फोटो */
+            gap: 10px;
+        }
+
+        .assignment-img {
+            width: 100%;
+            aspect-ratio: 3/4; /* कॉपी के पेज जैसा साइज़ */
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            background: #f5f5f5;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .assignment-img:active { transform: scale(0.95); }
+
+        footer { margin-top: 30px; font-size: 0.8rem; color: #999; text-align: center; padding-bottom: 20px; }
+
+        /* लाइटबॉक्स */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+        }
+        #lightbox img { max-width: 95%; max-height: 85vh; border-radius: 5px; box-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        .close-lb { position: absolute; top: 20px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; padding: 10px; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <header class="profile-header">
+            <div class="avatar-circle">π</div> <h1>Tanisha Kumari</h1>
+            <div class="tagline">Mathematics Portfolio</div>
+        </header>
+
+        <div class="glass-card" style="animation-delay: 0.1s;">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Class</label>
+                    <span>9 - 'D'</span>
+                </div>
+                <div class="info-item">
+                    <label>Roll No</label>
+                    <span>40</span>
+                </div>
+                <div class="info-item">
+                    <label>Subject</label>
+                    <span>Mathematics</span>
+                </div>
+                <div class="info-item">
+                    <label>Session</label>
+                    <span>2025-26</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%; border-bottom: 1px dashed #ccc; margin: 10px 0;"></div>
+
+        <div id="chapters-container" style="width: 100%;">
+            </div>
+
+        <footer>
+            Submitted to: Maths Dept.<br>
+            Made with ❤️ by Tanisha
+        </footer>
+
+    </div>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <span class="close-lb">&times;</span>
+        <img id="lb-img" src="">
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION: बस यहाँ बदलो की किस चैप्टर में कितने फोटो हैं
+        // ============================================
+        
+        const chaptersData = [
+            // prefix: फोटो के नाम का शुरूआती हिस्सा (e.g., num_1.jpg)
+            // count: उस चैप्टर में कितनी फोटोज हैं
+            { name: "Number System", prefix: "num", count: 3 }, 
+            { name: "Polynomials", prefix: "poly", count: 4 },
+            { name: "Triangles", prefix: "tri", count: 2 },
+            { name: "Coordinate Geometry", prefix: "coord", count: 2 },
+            { name: "Volume & Surface Area", prefix: "vol", count: 5 },
+            { name: "VSA of Cones", prefix: "cone", count: 3 },
+            { name: "Heron's Formula", prefix: "heron", count: 2 },
+            { name: "Circles", prefix: "circle", count: 4 },
+            { name: "Statistics", prefix: "stat", count: 3 },
+            { name: "Probability", prefix: "prob", count: 2 }
+        ];
+
+        // ============================================
+
+        const container = document.getElementById('chapters-container');
+        let delay = 0.2;
+
+        chaptersData.forEach((chap, index) => {
+            // चैप्टर का सेक्शन बनाओ
+            const section = document.createElement('div');
+            section.className = 'chapter-section';
+            section.style.animationDelay = `${delay}s`;
+
+            // हेडिंग HTML
+            let htmlContent = `
+                <div class="chapter-title">
+                    ${index + 1}. ${chap.name}
+                    <span class="chapter-count">${chap.count} Pages</span>
+                </div>
+                <div class="image-grid">
+            `;
+
+            // लूप चलाकर फोटोज डालो
+            for (let i = 1; i <= chap.count; i++) {
+                // इमेज का पाथ: images/prefix_number.jpg (e.g. images/poly_1.jpg)
+                const imgSrc = `images/${chap.prefix}_${i}.jpg`;
+                
+                htmlContent += `
+                    <img src="${imgSrc}" 
+                         class="assignment-img" 
+                         onclick="openLightbox(this.src)"
+                         onerror="this.src='https://placehold.co/400x600/e0f7fa/006064?text=${chap.prefix}+${i}'">
+                `;
+            }
+
+            htmlContent += `</div>`; // क्लोज ग्रिड
+            section.innerHTML = htmlContent;
+            container.appendChild(section);
+
+            delay += 0.1; // एनीमेशन डिले
+        });
+
+        // लाइटबॉक्स फंक्शन
+        function openLightbox(src) {
+            document.getElementById('lb-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
